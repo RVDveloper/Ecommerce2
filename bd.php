@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // Crear la base de datos si no existe
 $sql = "CREATE DATABASE IF NOT EXISTS $bd";
 if ($conn->query($sql) === TRUE) {
-    echo "✅ Base de datos asegurada<br>";
+    // echo "✅ Base de datos asegurada<br>";
 } else {
     die("❌ Error al crear la base de datos: " . $conn->error);
 }
@@ -33,7 +33,7 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
 )";
 
 if ($conn->query($sql) === TRUE) {
-    echo "✅ Tabla 'users' asegurada.<br>";
+    // echo "✅ Tabla 'users' asegurada.<br>";
 } else {
     die("❌ Error al crear la tabla 'users': " . $conn->error);
 }
@@ -50,7 +50,7 @@ $sql = "CREATE TABLE IF NOT EXISTS productos (
 )";
 
 if ($conn->query($sql) === TRUE) {
-    echo "✅ Tabla 'productos' asegurada.<br>";
+    // echo "✅ Tabla 'productos' asegurada.<br>";
 } else {
     die("❌ Error al crear la tabla 'productos': " . $conn->error);
 }
@@ -65,11 +65,11 @@ $sql = "CREATE TABLE IF NOT EXISTS pagos (
 )";
 
 if ($conn->query($sql) === TRUE) {
-    echo "✅ Tabla 'pagos' asegurada.<br>";
+    // echo "✅ Tabla 'pagos' asegurada.<br>";
 } else {
     die("❌ Error al crear la tabla 'pagos': " . $conn->error);
 }
 
-echo "✅ Conexión y estructura de la base de datos aseguradas.";
+// echo "✅ Conexión y estructura de la base de datos aseguradas.";
 
 ?>

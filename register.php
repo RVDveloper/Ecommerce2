@@ -1,35 +1,33 @@
 <?php
 session_start(); // Iniciar sesión
-include("bd.php");
+include("bd.php"); // Incluir la conexión a la base de datos
 
+// Procesar el formulario cuando se envía
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name = $_POST["name"];
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    // Preparar consulta para evitar inyecciones SQL
-    $sql = "SELECT * FROM users WHERE email = ?";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-
-        if ($resultado->num_rows > 0) {
-            $rows = $resultado->fetch_assoc();
-
-            if (password_verify($password, $rows["password"])) {
-                $_SESSION["email"] = $email;
-                header("Location: templates/index.html"); // Redirigir al index.html
-                exit;
-            } else {
-                echo "Contraseña incorrecta";
-            }
-        } else {
-            echo "Usuario no encontrado";
-        }
-
-        $stmt->close();
+    // Validar que los campos no estén vacíos
+    if (empty($name) || empty($email) || empty($password)) {
+        $error_message = "Todos los campos son obligatorios.";
     } else {
-        echo "Error al preparar la consulta: " . $conn->error;
+        // Hashear la contraseña
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insertar el usuario en la base de datos
+        $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("sss", $name, $email, $hashed_password);
+            if ($stmt->execute()) {
+                $success_message = "";
+            } else {
+                $error_message = "❌ Error al registrar el usuario: " . $stmt->error;
+            }
+            $stmt->close();
+        } else {
+            $error_message = "❌ Error al preparar la consulta: " . $conn->error;
+        }
     }
 
     $conn->close();
@@ -50,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="templates/css/reserva.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="templates/img-optimizado/cherry.png" type="image/png">
-    <title>Login</title>
+    <title>Registro</title>
 </head>
 <body>
     <header class="header_start">
@@ -68,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <input type="checkbox" id="main" class="nav_input">    <!-- Menu bar on mobile view -->
                     <nav class="nav_menu">    
                         <ul>
-                            <li class="list-nav-nectar"><a href="index.html" class="nav_list">Home</a></li>
-                            <li class="list-nav-nectar"><a href="menu.html" class="nav_list box-list">Menu</a></li>
+                            <li class="list-nav-nectar"><a href="templates/index.html" class="nav_list">Home</a></li>
+                            <li class="list-nav-nectar"><a href="templates/menu.html" class="nav_list box-list">Menu</a></li>
                             <li class="list-nav-nectar services-main-list">
                                 <a href="#" class="nav_list">Services</a>
                                 <ul class="services-submain">
-                                    <li class="submain-list"><a href="ordernar.html">Ordenar</a></li>
-                                    <li class="submain-list"><a href="delivery.html">Delivery</a></li>
+                                    <li class="submain-list"><a href="templates/ordernar.html">Ordenar</a></li>
+                                    <li class="submain-list"><a href="templates/delivery.html">Delivery</a></li>
                                 </ul>
                             </li>
                             <li class="list-nav-nectar"><a href="#" class="nav_list">About us</a></li>
@@ -87,21 +85,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <main id="main">
         <div class="form-reserva">
             <div class="wrapper">
-                <h2 class="title-reserva">Iniciar Sesión</h2>
-                <form class="formulary" action="" method="POST">
+                <h2 class="title-reserva">Regístrate</h2>
+                <?php
+                // Mostrar mensajes de éxito o error
+                if (isset($success_message)) {
+                    echo "<p class='success-message'>$success_message</p>";
+                }
+                if (isset($error_message)) {
+                    echo "<p class='error-message'>$error_message</p>";
+                }
+                ?>
+                <form class="formulary" action="" method="post">
                     <ul class="form-ul">
                         <li class="form_ul_li">
-                            <input type="email" name="email" id="email" required placeholder=""/>
+                            <input type="text" name="name" id="name" required/>
+                            <label for="name">Nombre</label>
+                        </li>
+                        <li class="form_ul_li">
+                            <input type="email" name="email" id="email" required/>
                             <label for="email">Email</label>
                         </li>
                         <li class="form_ul_li">
-                            <input type="password" name="password" id="password" required placeholder=""/>
+                            <input type="password" name="password" id="password" required/>
                             <label for="password">Contraseña</label>
                         </li>
                     </ul>
-                    <input class="float" type="submit" value="Iniciar Sesión">
+                    <input class="float" type="submit" value="Registrarse">
                 </form>
-                <p class="register-link">¿No tienes una cuenta? <a href="register.php">Regístrate aquí</a></p>
+                <p class="register-link">¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a></p>
             </div>
         </div>
     </main>
