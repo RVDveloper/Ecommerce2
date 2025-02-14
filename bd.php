@@ -72,5 +72,4 @@ if ($conn->query($sql) === TRUE) {
 
 echo "✅ Conexión y estructura de la base de datos aseguradas.";
 
-$conn->close();
 ?>

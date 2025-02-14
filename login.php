@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (password_verify($password, $rows["password"])) {
                 $_SESSION["email"] = $email;
-                header("Location: index.html"); // Redirigir al index.html
+                header("Location: templates/index.html"); // Redirigir al index.html
                 exit;
             } else {
                 echo "Contraseña incorrecta";
@@ -40,16 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="templates/css/reset.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/reserva.css">
+    <link rel="stylesheet" href="templates/css/style.css">
+    <link rel="stylesheet" href="templates/css/reserva.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img-optimizado/cherry.png" type="image/png">
+    <link rel="icon" href="templates/img-optimizado/cherry.png" type="image/png">
     <title>Login</title>
 </head>
 <body>
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="wrapper">
                 <div class="header_title_a_network">
                     <a class="h1_a" href="index.html">
-                        <img class="cherry-title" src="img-optimizado/cherry_white.png" alt="title-cherry">
+                        <img class="cherry-title" src="templates/img-optimizado/cherry_white.png" alt="title-cherry">
                     </a>    
                 </div>    
                 <div class="header_nav_bars">
