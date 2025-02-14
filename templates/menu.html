@@ -37,7 +37,7 @@
                         </label>
                         <input type="checkbox" id="main" class="nav_input">    <!-- Menu bar on mobile view -->
                         <nav class="nav_menu">    
-                            <ul>
+                            <ul class="naving" role="navigation">
                                 <li class="list-nav-nectar"><a href="index.html" class="nav_list">Home</a></li>
                                 <li class="list-nav-nectar"><a href="menu.html" class="nav_list box-list">Menu</a></li>
                                 <li class="list-nav-nectar services-main-list">
@@ -48,6 +48,8 @@
                                     </ul>
                                 </li>
                                 <li class="list-nav-nectar"><a href="about-us.html" class="nav_list">About us</a></li>
+                                <li class="list-nav-nectar icon-naving"><a href="../login.php"><i class="fa-solid fa-user"></i></a></li>
+                                <li class="list-nav-nectar icon-naving"><a href="../bd.php"><i class="fa-solid fa-cart-shopping"></i></a></i></li>
                             </ul>
                         </nav>     
                     </div>
@@ -258,6 +260,11 @@
                 </section>
                 <section class="box-cards-container cocktekes">
                     <div class="wrapper">
+                        <div id="popup" style="display: none;">
+                            <p>¿Quieres agregar este producto al carrito?</p>
+                            <button id="add-to-cart">Sí</button>
+                            <button id="cancel">No</button>
+                        </div>
                         <h2 class="title-drinks">Bebidas y Cockteles</h2>
                         <section class="container-cards main-drinks">
                             <div class="card-main drinks-cards">
@@ -456,7 +463,8 @@
                 </div>
             </div>
         </footer>
-
     </div>
+
+    <script src="./js/getProduct.js"></script>
 </body>
 </html>
